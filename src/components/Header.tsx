@@ -1,100 +1,147 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Search, Menu, X, BookOpen, ShoppingCart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ShoppingCart, Menu, X, Globe, User } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Перенаправить на страницу поиска с запросом
+    if (searchQuery.trim()) {
+      window.location.href = `/search?query=${encodeURIComponent(searchQuery)}`;
+    }
+  };
 
   return (
-    <header className="bg-black text-white">
-      {/* Верхняя навигация */}
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Мобильное меню */}
-        <div className="lg:hidden">
-          <Button variant="ghost" size="icon" onClick={toggleMenu} className="text-white">
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </Button>
-        </div>
-
-        {/* Логотип */}
-        <div className="flex items-center">
-          <Link to="/" className="mr-8">
-            <img src="/logo-b.svg" alt="Логотип" className="h-10" />
+    <header className="bg-card shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          {/* Логотип и название */}
+          <Link to="/" className="flex items-center gap-2">
+            <BookOpen className="w-8 h-8 text-historian" />
+            <span className="text-xl font-serif font-bold hidden sm:inline">МироваяИстория</span>
           </Link>
-          
-          {/* Основное меню (только для десктопа) */}
-          <nav className="hidden lg:flex space-x-6">
-            <Link to="/store" className="hover:text-gray-300 font-medium">МАГАЗИН</Link>
-            <Link to="/faq" className="hover:text-gray-300 font-medium">FAQ</Link>
-            <Link to="/help" className="hover:text-gray-300 font-medium">ПОДДЕРЖКА</Link>
-          </nav>
-        </div>
 
-        {/* Правая часть меню */}
-        <div className="flex items-center space-x-4">
-          {/* Строка поиска (переключаемая на мобильных) */}
-          {isSearchOpen ? (
-            <div className="absolute left-0 top-0 w-full bg-black p-4 lg:relative lg:w-auto lg:bg-transparent lg:p-0">
-              <div className="flex items-center">
-                <Input 
-                  placeholder="Поиск в магазине" 
-                  className="bg-gray-800 border-none text-white" 
-                  autoFocus 
-                />
-                <Button variant="ghost" size="icon" onClick={toggleSearch} className="text-white ml-2 lg:hidden">
-                  <X size={20} />
-                </Button>
-              </div>
+          {/* Поисковая строка - скрыта на мобильных */}
+          <form 
+            onSubmit={handleSearch} 
+            className="hidden md:flex items-center flex-grow mx-6 max-w-xl"
+          >
+            <div className="relative w-full">
+              <Input
+                type="search"
+                placeholder="Поиск исторических событий, личностей, эпох..."
+                className="w-full pr-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button 
+                type="submit" 
+                variant="ghost" 
+                size="icon" 
+                className="absolute right-0 top-0"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
             </div>
-          ) : (
-            <Button variant="ghost" size="icon" onClick={toggleSearch} className="text-white">
-              <Search size={20} />
-            </Button>
-          )}
-          
-          {/* Иконки */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-white">
-              <Globe size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-white">
-              <User size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-white">
-              <ShoppingCart size={20} />
+          </form>
+
+          {/* Навигация - видна на десктопе */}
+          <nav className="hidden md:flex items-center gap-4">
+            <Link to="/eras" className="hover:text-primary">Эпохи</Link>
+            <Link to="/events" className="hover:text-primary">События</Link>
+            <Link to="/shop" className="hover:text-primary">Магазин</Link>
+            <Link to="/account">
+              <Button variant="outline" size="icon">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/cart">
+              <Button variant="outline" size="icon">
+                <ShoppingCart className="h-5 w-5" />
+              </Button>
+            </Link>
+          </nav>
+
+          {/* Мобильные кнопки */}
+          <div className="flex items-center gap-2 md:hidden">
+            <Button variant="outline" size="icon" onClick={toggleMenu}>
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
-          
-          {/* Кнопка загрузки (только для десктопа) */}
-          <Button className="hidden md:block bg-blue-600 hover:bg-blue-700">
-            Загрузить
-          </Button>
         </div>
-      </div>
 
-      {/* Мобильное меню (выпадающее) */}
-      {isMenuOpen && (
-        <div className="lg:hidden bg-gray-900 border-t border-gray-800">
-          <div className="container mx-auto px-4 py-4">
-            <nav className="flex flex-col space-y-4">
-              <Link to="/store" className="hover:text-gray-300 py-2 font-medium">МАГАЗИН</Link>
-              <Link to="/faq" className="hover:text-gray-300 py-2 font-medium">FAQ</Link>
-              <Link to="/help" className="hover:text-gray-300 py-2 font-medium">ПОДДЕРЖКА</Link>
-              <div className="pt-2">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                  Загрузить
+        {/* Мобильное меню */}
+        {isMenuOpen && (
+          <div className="md:hidden mt-4 pb-2">
+            <form onSubmit={handleSearch} className="mb-4">
+              <div className="relative">
+                <Input
+                  type="search"
+                  placeholder="Поиск в истории..."
+                  className="w-full pr-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button 
+                  type="submit" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute right-0 top-0"
+                >
+                  <Search className="h-5 w-5" />
                 </Button>
               </div>
+            </form>
+            <nav className="flex flex-col space-y-3">
+              <Link 
+                to="/eras" 
+                className="px-2 py-1 hover:bg-secondary rounded"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Эпохи
+              </Link>
+              <Link 
+                to="/events" 
+                className="px-2 py-1 hover:bg-secondary rounded"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                События
+              </Link>
+              <Link 
+                to="/shop" 
+                className="px-2 py-1 hover:bg-secondary rounded"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Магазин
+              </Link>
+              <Link 
+                to="/account" 
+                className="px-2 py-1 hover:bg-secondary rounded"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Личный кабинет
+              </Link>
+              <Link 
+                to="/cart" 
+                className="px-2 py-1 hover:bg-secondary rounded flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <ShoppingCart className="h-4 w-4" />
+                Корзина
+              </Link>
             </nav>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 };

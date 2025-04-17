@@ -1,37 +1,45 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-interface HeroProps {
+type HeroProps = {
   title: string;
+  subtitle?: string;
   description: string;
   imageUrl: string;
-  buttonText?: string;
-}
+  ctaLink?: string;
+  ctaText?: string;
+};
 
-const Hero = ({ title, description, imageUrl, buttonText = "КУПИТЬ СЕЙЧАС" }: HeroProps) => {
+const Hero = ({
+  title,
+  subtitle = "",
+  description,
+  imageUrl,
+  ctaLink = "/eras",
+  ctaText = "Начать путешествие",
+}: HeroProps) => {
   return (
-    <div className="relative w-full h-[600px] overflow-hidden">
-      {/* Фоновое изображение */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-      </div>
-      
-      {/* Контент */}
-      <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
-        <div className="container mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">{title}</h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-6 max-w-3xl">{description}</p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="bg-white text-black hover:bg-gray-200 text-lg py-6 px-8">
-              {buttonText}
-            </Button>
-            <Button variant="outline" className="text-white border-white hover:bg-white/10 text-lg py-6 px-8">
-              УЗНАТЬ БОЛЬШЕ
-            </Button>
-          </div>
-        </div>
+    <div className="relative overflow-hidden bg-cover bg-center h-[70vh] flex items-center justify-center" 
+         style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${imageUrl})` }}>
+      <div className="container mx-auto px-4 z-10 text-center">
+        <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-2">
+          {title}
+        </h1>
+        {subtitle && (
+          <h2 className="text-xl md:text-2xl font-serif text-white/80 mb-6">
+            {subtitle}
+          </h2>
+        )}
+        <p className="text-lg text-white/70 max-w-3xl mx-auto mb-8">
+          {description}
+        </p>
+        <Link to={ctaLink}>
+          <Button size="lg" className="bg-historian hover:bg-historian-dark">
+            {ctaText} <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </Link>
       </div>
     </div>
   );
