@@ -112,30 +112,7 @@
   }
 }
 
-.timeline-era {
-  @apply border-l-4 pl-4 py-4 transition-all;
-}
-
-.timeline-era.ancient {
-  @apply border-ancient;
-}
-
-.timeline-era.medieval {
-  @apply border-medieval;
-}
-
-.timeline-era.renaissance {
-  @apply border-renaissance;
-}
-
-.timeline-era.modern {
-  @apply border-modern;
-}
-
-.timeline-era.contemporary {
-  @apply border-contemporary;
-}
-
+/* Удаляем проблемные классы, которые вызывали ошибку */
 .historian-badge {
   @apply bg-historian text-white px-2 py-1 text-xs rounded-full;
 }

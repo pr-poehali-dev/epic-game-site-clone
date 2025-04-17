@@ -38,7 +38,7 @@ const TimelineEra = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className={`timeline-era ${type} mb-8`}>
+    <div className={`border-l-4 pl-4 py-4 transition-all mb-8 border-${type}`}>
       <div className="flex justify-between items-start mb-2">
         <div>
           <h3 className="text-2xl font-serif font-semibold">{title}</h3>

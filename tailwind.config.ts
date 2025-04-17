@@ -61,6 +61,31 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Добавленные цвета для исторических эпох
+				ancient: {
+					DEFAULT: 'hsl(var(--ancient))',
+					dark: 'hsl(var(--ancient-dark))'
+				},
+				medieval: {
+					DEFAULT: 'hsl(var(--medieval))',
+					dark: 'hsl(var(--medieval-dark))'
+				},
+				renaissance: {
+					DEFAULT: 'hsl(var(--renaissance))',
+					dark: 'hsl(var(--renaissance-dark))'
+				},
+				modern: {
+					DEFAULT: 'hsl(var(--modern))',
+					dark: 'hsl(var(--modern-dark))'
+				},
+				contemporary: {
+					DEFAULT: 'hsl(var(--contemporary))',
+					dark: 'hsl(var(--contemporary-dark))'
+				},
+				historian: {
+					DEFAULT: 'hsl(var(--historian))',
+					dark: 'hsl(var(--historian-dark))'
 				}
 			},
 			borderRadius: {
